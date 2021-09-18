@@ -29,13 +29,12 @@ class PostsSpider(scrapy.Spider):
         posts = response.xpath('//*[@id="j_p_postlist"]')
         for post in posts:
             yield{
+
                 'level': post.xpath(''),
-
-
-
-
-
-
+                'uid':post.xpath(''),
+                'nickname':post.xpath(''),
+                'content':post.xpath(''),
+                'replycount':post.xpath(''),
 
 
             }
