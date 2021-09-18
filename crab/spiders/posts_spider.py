@@ -26,17 +26,23 @@ class PostsSpider(scrapy.Spider):
         
         #选贴器
 
-        posts = response.xpath('')
+        posts = response.xpath('//*[@id="j_p_postlist"]')
         for post in posts:
-            
+            yield{
+                'level': post.xpath(''),
+
+
+
+
+
+
+
+
+            }
         
         
         
-        
-        
-        
-        
-            pass
+        pass
         
         
         # 下一页
