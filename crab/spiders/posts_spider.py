@@ -8,7 +8,7 @@ class PostsSpider(scrapy.Spider):
     # 请求生成器
     def start_requests(self):
         
-        pn =121
+        #pn =121
         url = "https://tieba.baidu.com/p/5389935515"
         yield scrapy.Request(url=url,callback=self.parse)
         
@@ -20,3 +20,11 @@ class PostsSpider(scrapy.Spider):
         with open(filename, 'wb') as f:
             f.write(response.body)
         self.log(f'Saved file {filename}')
+        
+        
+        
+        #选贴器
+
+        #posts = response.xpath('')
+        #for post in posts:
+        #    pass
