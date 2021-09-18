@@ -15,9 +15,9 @@ NEWSPIDER_MODULE = 'crab.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'crab (+http://www.yourdomain.com)'
-
+USER_AGENT = 'com.apple.Webkit.Networking/8611.3.10.0.1'
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32

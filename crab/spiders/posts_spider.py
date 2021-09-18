@@ -9,7 +9,9 @@ class PostsSpider(scrapy.Spider):
     def start_requests(self):
         
         pn =121
-        url = "https://tieba.baidu.com/p/"+"5389935515"+"?pn="+str(pn)
+        url = "https://tieba.baidu.com/p/5389935515"
+        yield scrapy.Request(url=url,callback=self.parse)
+        
 
     def parse(self, response):
         
