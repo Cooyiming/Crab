@@ -8,13 +8,14 @@ class PostsSpider(scrapy.Spider):
     # 请求生成器
     def start_requests(self):
         
-        #pn =121
+        # present pn =121
         url = "https://tieba.baidu.com/p/5389935515"
         yield scrapy.Request(url=url,callback=self.parse)
         
 
     def parse(self, response):
         
+        # Dev only
         page = response.url.split("/")[-2]
         filename = f'quotes-{page}.html'
         with open(filename, 'wb') as f:
@@ -25,6 +26,21 @@ class PostsSpider(scrapy.Spider):
         
         #选贴器
 
-        #posts = response.xpath('')
-        #for post in posts:
-        #    pass
+        posts = response.xpath('')
+        for post in posts:
+            
+        
+        
+        
+        
+        
+        
+        
+            pass
+        
+        
+        # 下一页
+        next_page = response.xpath('//*[@id="thread_theme_5"]/div[1]/ul/li[1]/a[10]/@herf').get()
+        
+        if next_page is not None:
+            yield response.follow(next_page, self.parse)
