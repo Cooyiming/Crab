@@ -38,7 +38,7 @@ class PostsSpider(scrapy.Spider):
 
 
             }
-    
+        
         
         
         pass
