@@ -13,6 +13,7 @@ class CrabItem(scrapy.Item):
     uid = scrapy.Field()
     nickname = scrapy.Field()
     content = scrapy.Field()
+    image = scrapy.Field()
     replycount = scrapy.Field()
 
 
