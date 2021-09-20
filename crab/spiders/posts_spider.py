@@ -26,7 +26,27 @@ class PostsSpider(scrapy.Spider):
         
         #选贴器
 
-        posts = response.xpath('//*[@id="j_p_postlist"]')
+        posts = response.xpath('//*[@id="j_p_postlist"]/div')
+        
+        """
+            posts:
+            //*[@id="j_p_postlist"]/div[1]
+            //*[@id="j_p_postlist"]/div[1]
+            //*[@id="j_p_postlist"]/div[2]
+
+            author:
+
+
+
+
+            content:
+            //*[@id="post_content_141129758205"]
+                image:
+                //*[@id="post_content_141134307009"]/img
+
+            reply:
+            //*[@id="j_p_postlist"]/div[1]/div[2]/div[1]/cc
+        """
         for post in posts:
             yield{
 
@@ -34,6 +54,7 @@ class PostsSpider(scrapy.Spider):
                 'uid':post.xpath(''),
                 'nickname':post.xpath(''),
                 'content':post.xpath(''),
+                'image':post.xpath(''),
                 'replycount':post.xpath(''),
 
 
@@ -46,6 +67,6 @@ class PostsSpider(scrapy.Spider):
         
         # 下一页
         next_page = response.xpath('//*[@id="thread_theme_5"]/div[1]/ul/li[1]/a[10]/@herf').get()
-        
+        #                           //*[@id="thread_theme_5"]/div[1]/ul/li[1]/a[9]/@herf
         if next_page is not None:
             yield response.follow(next_page, self.parse)

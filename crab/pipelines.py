@@ -11,3 +11,8 @@ from itemadapter import ItemAdapter
 class CrabPipeline:
     def process_item(self, item, spider):
         return item
+
+class CrabStoragePipeline:
+    def process_item(self, item, spider):
+        return item
+ 
