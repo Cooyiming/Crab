@@ -1,10 +1,11 @@
 import scrapy
+#from scrapy import signals
 
 # define our spider
 class PostsSpider(scrapy.Spider):
     # 爬虫的唯一标识符
     name = "posts"
-
+    @classmethod
     # 请求生成器
     def start_requests(self):
         
@@ -22,13 +23,10 @@ class PostsSpider(scrapy.Spider):
             f.write(response.body)
         self.log(f'Saved file {filename}')
         
-        
-        
         #选贴器
-
         posts = response.xpath('//*[@id="j_p_postlist"]/div')
         
-        """
+        """TODO:
             posts:
             //*[@id="j_p_postlist"]/div[1]
             //*[@id="j_p_postlist"]/div[1]
@@ -47,6 +45,7 @@ class PostsSpider(scrapy.Spider):
             reply:
             //*[@id="j_p_postlist"]/div[1]/div[2]/div[1]/cc
         """
+        
         for post in posts:
             yield{
 
@@ -56,17 +55,19 @@ class PostsSpider(scrapy.Spider):
                 'content':post.xpath(''),
                 'image':post.xpath(''),
                 'replycount':post.xpath(''),
-
-
             }
-        
-        
-        
         pass
-        
-        
-        # 下一页
-        next_page = response.xpath('//*[@id="thread_theme_5"]/div[1]/ul/li[1]/a[10]/@herf').get()
-        #                           //*[@id="thread_theme_5"]/div[1]/ul/li[1]/a[9]/@herf
-        if next_page is not None:
+        #下一页(But there is no end of this...)
+        next_page = response.xpath('//*[@id="l_pager pager_theme_4 pb_list_pager"]/a[1ast()-1]/@herf').extract()
+        #tips:                      //*[@id="thread_theme_5"]/div[1]/ul/li[1]/a[9]/@herf
+        this_page = response.xpath('//*[@id="l_pager pager_theme_4 pb_list_pager"]//span/text()').get()
+        total_page = response.xpath('//*[@id="thread_theme_5"]/div[1]/ul/li[2]/span[2]/text()').get()
+        if this_page is not total_page:
             yield response.follow(next_page, self.parse)
+
+    def parse_details(self, response, item=None):
+        if item:
+            # populate more `item` fields
+            return item
+        else:
+            self.logger.warning('No item received for %s', response.url)
