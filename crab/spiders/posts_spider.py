@@ -1,3 +1,4 @@
+from typing import ContextManager
 import scrapy
 #from scrapy import signals
 
@@ -5,12 +6,13 @@ import scrapy
 class PostsSpider(scrapy.Spider):
     # 爬虫的唯一标识符
     name = "posts"
+    allowed_domains = ['tieba.baidu.com']
     @classmethod
     # 请求生成器
     def start_requests(self):
         
         # present pn =121
-        url = "https://tieba.baidu.com/p/5389935515"
+        url = "https://tieba.baidu.com/p/5389935515?pn=1"
         yield scrapy.Request(url=url,callback=self.parse)
         
 
@@ -24,8 +26,7 @@ class PostsSpider(scrapy.Spider):
         self.log(f'Saved file {filename}')
         
         #选贴器
-        posts = response.xpath('//*[@id="j_p_postlist"]/div')
-        
+        posts = response.xpath('//*[@id="j_p_postlist"]//div')
         """TODO:
             posts:
             //*[@id="j_p_postlist"]/div[1]
@@ -33,9 +34,6 @@ class PostsSpider(scrapy.Spider):
             //*[@id="j_p_postlist"]/div[2]
 
             author:
-
-
-
 
             content:
             //*[@id="post_content_141129758205"]
@@ -47,18 +45,26 @@ class PostsSpider(scrapy.Spider):
         """
         
         for post in posts:
-            yield{
+            metadata = post.xpath('/@data-field').getall()
+            content = post.xpath('//*[@class="d_post_content j_d_post_content "]/')
+            
 
-                'level': post.xpath(''),
-                'uid':post.xpath(''),
-                'nickname':post.xpath(''),
-                'content':post.xpath(''),
-                'image':post.xpath(''),
-                'replycount':post.xpath(''),
+            # Parse 'comment_num' in the metadate first
+            comment_num = metadata.xpath('/').get()
+            
+            yield{
+                'metadata': metadata,
+                'content':content,
+                'comment_num':comment_num,
             }
-        pass
+
+            if comment_num != 0 :
+                yield{
+                'reply_meta':post.xpath(''),
+                'reply_content':post.xpath(''),
+                }
         #下一页(But there is no end of this...)
-        next_page = response.xpath('//*[@id="l_pager pager_theme_4 pb_list_pager"]/a[1ast()-1]/@herf').extract()
+        next_page = response.xpath('//*[@id="l_pager pager_theme_4 pb_list_pager"]/a[1ast()-1]/@herf').get()
         #tips:                      //*[@id="thread_theme_5"]/div[1]/ul/li[1]/a[9]/@herf
         this_page = response.xpath('//*[@id="l_pager pager_theme_4 pb_list_pager"]//span/text()').get()
         total_page = response.xpath('//*[@id="thread_theme_5"]/div[1]/ul/li[2]/span[2]/text()').get()
