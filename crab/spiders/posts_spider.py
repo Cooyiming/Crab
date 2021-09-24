@@ -2,6 +2,16 @@ from typing import ContextManager
 import scrapy
 #from scrapy import signals
 
+import json,re
+
+
+
+
+
+
+
+
+
 # define our spider
 class PostsSpider(scrapy.Spider):
     # 爬虫的唯一标识符
@@ -27,7 +37,7 @@ class PostsSpider(scrapy.Spider):
         
         #选贴器
         posts = response.xpath('//*[@id="j_p_postlist"]//div')
-        """TODO:
+        """TODO
             posts:
             //*[@id="j_p_postlist"]/div[1]
             //*[@id="j_p_postlist"]/div[1]
@@ -47,17 +57,24 @@ class PostsSpider(scrapy.Spider):
         for post in posts:
             metadata = post.xpath('/@data-field').getall()
             content = post.xpath('//*[@class="d_post_content j_d_post_content "]/')
+            # Metadata normalization
+#TODO:
             
 
+
+
+
+
+
+
             # Parse 'comment_num' in the metadate first
-            comment_num = metadata.xpath('/').get()
             
             yield{
                 'metadata': metadata,
                 'content':content,
                 'comment_num':comment_num,
             }
-
+#TODO:
             if comment_num != 0 :
                 yield{
                 'reply_meta':post.xpath(''),
