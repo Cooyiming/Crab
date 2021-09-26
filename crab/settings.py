@@ -64,9 +64,9 @@ EXTENSIONS = {
 #    'scrapy.extensions.telnet.TelnetConsole': None,
     'scrapy.extensions.logstats.LogStats':0,
     'scrapy.extensions.corestats.CoreStats':0,
-    'scrapy.extensions.statsmailer.StatsMailer':0,
+#    'scrapy.extensions.statsmailer.StatsMailer':0,
 #    '':,
-    'crapy.extensions.closespider.CloseSpider':0,
+#    'crapy.extensions.closespider.CloseSpider':0,
 }
 
 # Configure item pipelines

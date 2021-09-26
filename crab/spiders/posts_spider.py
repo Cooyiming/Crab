@@ -29,15 +29,15 @@ class PostsSpider(scrapy.Spider):
     def parse(self, response):
         
         # Dev only
-        page = response.url.split("/")[-2]
-        filename = f'quotes-{page}.html'
-        with open(filename, 'wb') as f:
-            f.write(response.body)
-        self.log(f'Saved file {filename}')
+        #page = response.url.split("/")[-2]
+        #filename = f'quotes-{page}.html'
+        #with open(filename, 'wb') as f:
+        #    f.write(response.body)
+        #self.log(f'Saved file {filename}')
         
         #选贴器
         posts = response.xpath('//*[@id="j_p_postlist"]//div')
-        """TODO
+        """
             posts:
             //*[@id="j_p_postlist"]/div[1]
             //*[@id="j_p_postlist"]/div[1]
@@ -55,9 +55,9 @@ class PostsSpider(scrapy.Spider):
         """
         
         for post in posts:
-            pid = post.xpath('/@data-pid').get()
-            metadata = post.xpath('/@data-field').getall()
-            content = post.xpath('//*[@class="d_post_content j_d_post_content "]/div[2]/div[1]/cc/')
+            pid = post.xpath('.@data-pid').get()
+            metadata = post.xpath('.@data-field').getall()                       #TODO:
+            content = post.xpath('.//*[@class="d_post_content j_d_post_content "]/descendant::*')
             #                     //*[@id="j_p_postlist"]/div[10]/div[2]/div[1]
             # Metadata normalization
 #TODO:
@@ -66,18 +66,21 @@ class PostsSpider(scrapy.Spider):
             meta_author = data['author']
             meta_content = data['content']
             
-            uid = meta_author['user_id']
+            user_id = meta_author['user_id']
             comment_num = meta_content['comment_numa']
-            
+            level = meta_content['post_no']
             # Parse 'comment_num' in the metadate first
             
             yield{
-                'metadata': metadata,
+                'pid':pid,
                 'content':content,
                 'comment_num':comment_num,
+                'user_id':user_id,
+                'level':level,
             }
 #TODO:
             if comment_num != 0 :
+                replies = post.xpath('.//*[@class="j_lzl_c_b_a core_reply_content"]/ul//li[@class="lzl_single_post j_lzl_s_p "]')
                 yield{
                 'reply_meta':post.xpath(''),
                 'reply_content':post.xpath(''),
