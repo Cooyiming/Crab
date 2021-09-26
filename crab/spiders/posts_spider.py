@@ -55,18 +55,20 @@ class PostsSpider(scrapy.Spider):
         """
         
         for post in posts:
+            pid = post.xpath('/@data-pid').get()
             metadata = post.xpath('/@data-field').getall()
-            content = post.xpath('//*[@class="d_post_content j_d_post_content "]/')
+            content = post.xpath('//*[@class="d_post_content j_d_post_content "]/div[2]/div[1]/cc/')
+            #                     //*[@id="j_p_postlist"]/div[10]/div[2]/div[1]
             # Metadata normalization
 #TODO:
+            data = json.loads(metadata)
+            #data is a dictionary
+            meta_author = data['author']
+            meta_content = data['content']
             
-
-
-
-
-
-
-
+            uid = meta_author['user_id']
+            comment_num = meta_content['comment_numa']
+            
             # Parse 'comment_num' in the metadate first
             
             yield{

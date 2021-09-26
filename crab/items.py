@@ -11,6 +11,7 @@ class CrabItem(scrapy.Item):
     # define the fields for your item here like:    A = scrapy.Field(*arg)
     # Post main info
     metadata = scrapy.Field()
+    pid = scrapy.Field()
     content = scrapy.Field()
     comment_num = scrapy.Field()
     # Reply main info
