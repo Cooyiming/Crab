@@ -20,14 +20,14 @@ class PostsSpider(scrapy.Spider):
     @classmethod
     # 请求生成器
     def start_requests(self):
-        
+
         # present pn =121
         url = "https://tieba.baidu.com/p/5389935515?pn=1"
         yield scrapy.Request(url=url,callback=self.parse)
-        
+
 
     def parse(self, response):
-        
+
         # Dev only
         #page = response.url.split("/")[-2]
         #filename = f'quotes-{page}.html'
@@ -65,26 +65,30 @@ class PostsSpider(scrapy.Spider):
 #           
             content = post.xpath('//*[@class="d_post_content j_d_post_content "]/descendant::*')
             #                     //*[@id="j_p_postlist"]/div[10]/div[2]/div[1]
-            
-            
+
+
 #XXX        # Post info wrapper
             # Metadata normalization
             data = json.loads(metadata[0])
-            #data is a dictionary 
+            #data is a dictionary
             meta_author = data['author']
             meta_content = data['content']
-            
+
             user_id = int(meta_author['user_id'])
             comment_num = meta_content['comment_numa']
             level = meta_content['post_no']
             # Parse 'comment_num' in the metadate first
-#TODO:      Post content wrapper         
+#TODO:      Post content wrapper
+            content = temp
             yield{
                 'pid':pid,
-                'content':content,
+                'level':level,
                 'comment_num':comment_num,
                 'user_id':user_id,
-                'level':level,
+                'content':content,
+
+
+
             }
 #TODO:      Reply wrapper TODO:
             if comment_num != 0 :
