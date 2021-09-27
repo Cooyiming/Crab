@@ -36,7 +36,9 @@ class PostsSpider(scrapy.Spider):
         #self.log(f'Saved file {filename}')
         
         #选贴器
-        posts = response.xpath('//*[@id="j_p_postlist"]//div')
+        posts = response.xpath('//*[@id="j_p_postlist"]//div[@class="l_post l_post_bright j_l_post clearfix  "]')
+        # Return a list of selectors
+        
         """
             posts:
             //*[@id="j_p_postlist"]/div[1]
@@ -55,22 +57,28 @@ class PostsSpider(scrapy.Spider):
         """
         
         for post in posts:
-            pid = post.xpath('.@data-pid').get()
-            metadata = post.xpath('.@data-field').getall()                       #TODO:
-            content = post.xpath('.//*[@class="d_post_content j_d_post_content "]/descendant::*')
+            #Defult root node here is  
+            pid = int(post.xpath('@data-pid').get())        # 返回str->返回int
+            metadata = post.xpath('@data-field').getall()   # 返回List
+                                                            # example:['{"key1":value1}']                                                     
+#FIXIT:   获得内容中的多个标签与img/src
+#           
+            content = post.xpath('//*[@class="d_post_content j_d_post_content "]/descendant::*')
             #                     //*[@id="j_p_postlist"]/div[10]/div[2]/div[1]
+            
+            
+#XXX        # Post info wrapper
             # Metadata normalization
-#TODO:
-            data = json.loads(metadata)
-            #data is a dictionary
+            data = json.loads(metadata[0])
+            #data is a dictionary 
             meta_author = data['author']
             meta_content = data['content']
             
-            user_id = meta_author['user_id']
+            user_id = int(meta_author['user_id'])
             comment_num = meta_content['comment_numa']
             level = meta_content['post_no']
             # Parse 'comment_num' in the metadate first
-            
+#TODO:      Post content wrapper         
             yield{
                 'pid':pid,
                 'content':content,
@@ -78,7 +86,7 @@ class PostsSpider(scrapy.Spider):
                 'user_id':user_id,
                 'level':level,
             }
-#TODO:
+#TODO:      Reply wrapper TODO:
             if comment_num != 0 :
                 replies = post.xpath('.//*[@class="j_lzl_c_b_a core_reply_content"]/ul//li[@class="lzl_single_post j_lzl_s_p "]')
                 yield{
@@ -87,7 +95,7 @@ class PostsSpider(scrapy.Spider):
                 }
         #下一页(But there is no end of this...)
         next_page = response.xpath('//*[@id="l_pager pager_theme_4 pb_list_pager"]/a[1ast()-1]/@herf').get()
-        #tips:                      //*[@id="thread_theme_5"]/div[1]/ul/li[1]/a[9]/@herf
+        #                           //*[@id="thread_theme_5"]/div[1]/ul/li[1]/a[9]/@herf
         this_page = response.xpath('//*[@id="l_pager pager_theme_4 pb_list_pager"]//span/text()').get()
         total_page = response.xpath('//*[@id="thread_theme_5"]/div[1]/ul/li[2]/span[2]/text()').get()
         if this_page is not total_page:
