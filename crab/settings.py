@@ -16,7 +16,7 @@ NEWSPIDER_MODULE = 'crab.spiders'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'crab (+http://www.yourdomain.com)'
 #USER_AGENT = 'com.apple.Webkit.Networking/8611.3.10.0.1'
-USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50'
+USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36 Edg/93.0.961.52'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -61,7 +61,7 @@ DOWNLOADER_MIDDLEWARES = {
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
 EXTENSIONS = {
-#    'scrapy.extensions.telnet.TelnetConsole': None,
+    'scrapy.extensions.telnet.TelnetConsole': None,
     'scrapy.extensions.logstats.LogStats':0,
     'scrapy.extensions.corestats.CoreStats':0,
 #    'scrapy.extensions.statsmailer.StatsMailer':0,
@@ -73,6 +73,7 @@ EXTENSIONS = {
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'crab.pipelines.CrabPipeline': 300,
+    'crab.pipelines.CrabJsonPipeline':100,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

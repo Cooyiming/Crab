@@ -18,19 +18,19 @@ class CrabItem(scrapy.Item):
     user_name = scrapy.Field()
     level = scrapy.Field()
     #content
-    content = scrapy.Field()
+#    content = scrapy.Field()
     
     # Reply main info
-    reply_content = scrapy.Field()
+#    reply_content = scrapy.Field()
 
 
 
 
-class ReplyItem(CrabItem):
+#TODO:class ReplyItem(CrabItem):
     #  Detailed reply info extracted from r_m & r_c
-    floor_num = scrapy.Field()
-    spid = scrapy.Field()
-    user_name = scrapy.Field()
-    user_nickname = scrapy.Field()
-    content = scrapy.Field()
+    #floor_num = scrapy.Field()
+    #spid = scrapy.Field()
+    #user_name = scrapy.Field()
+    #user_nickname = scrapy.Field()
+    #content = scrapy.Field()
     
