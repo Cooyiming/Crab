@@ -16,7 +16,7 @@ NEWSPIDER_MODULE = 'crab.spiders'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'crab (+http://www.yourdomain.com)'
 #USER_AGENT = 'com.apple.Webkit.Networking/8611.3.10.0.1'
-USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36 Edg/93.0.961.52'
+USER_AGENT = 'Mozilla/5.1 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36 Edg/93.0.961.52'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False

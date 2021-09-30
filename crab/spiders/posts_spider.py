@@ -17,14 +17,13 @@ class PostsSpider(scrapy.Spider):
     # 爬虫的唯一标识符
     name = "posts"
     allowed_domains = ['tieba.baidu.com']
-    @classmethod
     # 请求生成器
-    def start_requests(self):
+    #def start_requests(self):
 
         # present pn =121
-        url = "https://tieba.baidu.com/p/5389935515"
-        yield scrapy.Request(url=url,callback=self.parse)
-
+    #    url = "https://tieba.baidu.com/p/5389935515?pn=1"
+    #    yield scrapy.Request(url=url,callback=self.parse)
+    start_urls = ["https://tieba.baidu.com/p/5389935515?pn=1",]
 
     def parse(self, response):
 
@@ -75,7 +74,7 @@ class PostsSpider(scrapy.Spider):
             meta_content = data['content']
 
             user_id = int(meta_author['user_id'])
-            comment_num = meta_content['comment_numa']
+            comment_num = meta_content['comment_num']
             level = meta_content['post_no']
             # Parse 'comment_num' in the metadate first
 #TODO:      Post content wrapper
@@ -86,17 +85,15 @@ class PostsSpider(scrapy.Spider):
                 'comment_num':comment_num,
                 'user_id':user_id,
                 #'content':content,
-
-
-
             }
-#TODO:      Reply wrapper TODO:
+    #TODO:  Reply wrapper TODO:
             #if comment_num != 0 :
             #    replies = post.xpath('.//*[@class="j_lzl_c_b_a core_reply_content"]/ul//li[@class="lzl_single_post j_lzl_s_p "]')
             #    yield{
             #    'reply_meta':post.xpath(''),
             #    'reply_content':post.xpath(''),
             #    }
+        
         #下一页(But there is no end of this...)
         next_page = response.xpath('//*[@id="thread_theme_5"]/div[1]/ul/li[1]//a[text()="下一页")]/@href').get()
         #                           //*[@id="thread_theme_5"]/div[1]/ul/li[1]/a[9]/@href
