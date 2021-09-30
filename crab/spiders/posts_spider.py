@@ -95,10 +95,10 @@ class PostsSpider(scrapy.Spider):
             #    }
         
         #下一页(But there is no end of this...)
-        next_page = response.xpath('//*[@id="thread_theme_5"]/div[1]/ul/li[1]//a[text()="下一页")]/@href').get()
+        next_page = response.xpath('//li[@class="l_pager pager_theme_4 pb_list_pager"]//a[text()="下一页")]/@href').extract()
         #                           //*[@id="thread_theme_5"]/div[1]/ul/li[1]/a[9]/@href
-        this_page = response.xpath('//*[@id="l_pager pager_theme_4 pb_list_pager"]//span/text()').get()
-        total_page = response.xpath('//*[@id="thread_theme_5"]/div[1]/ul/li[2]/span[2]/text()').get()
+        this_page = response.xpath('//*[@id="thread_theme_5"]/div[1]/ul/li[1]/span/text()').extract()
+        total_page = response.xpath('//*[@id="thread_theme_5"]/div[1]/ul/li[2]/span[2]/text()').extract()
         if this_page is not total_page:
             yield response.follow(next_page, self.parse)
 
