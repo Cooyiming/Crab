@@ -1,0 +1,14 @@
+Content-Encoding: gzip
+Content-Type: text/html; charset=UTF-8
+Date: Fri, 01 Oct 2021 03:15:20 GMT
+P3P: CP=" OTI DSP COR IVA OUR IND COM "
+Server: Apache
+Set-Cookie: TIEBA_USERTYPE=45a1bae39302db5f41e23010; expires=Thu, 31-Dec-2020 15:59:59 GMT; path=/; domain=tieba.baidu.com
+Set-Cookie: wise_device=0; path=/
+Set-Cookie: BAIDUID=C3FDFF052BBF3F02E3B48E0CD15FB7EA:FG=1; expires=Sat, 01-Oct-22 03:15:20 GMT; max-age=31536000; path=/; domain=.baidu.com; version=1
+Set-Cookie: BAIDUID_BFESS=C3FDFF052BBF3F02E3B48E0CD15FB7EA:FG=1; Path=/; Domain=baidu.com; Expires=Sat, 01 Oct 2022 03:15:20 GMT; Max-Age=31536000; Secure; SameSite=None
+Tracecode: 09196893990370656010100111
+Tracecode: 09196893990416596746100111
+Vary: Accept-Encoding
+X-Xss-Protection: 1; mode=block
+X_Bd_St_Subid: tb_pc_pb
