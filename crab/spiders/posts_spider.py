@@ -3,15 +3,6 @@ import scrapy
 #from scrapy import signals
 
 import json,re
-
-
-
-
-
-
-
-
-
 # define our spider
 class PostsSpider(scrapy.Spider):
     # 爬虫的唯一标识符
@@ -23,7 +14,7 @@ class PostsSpider(scrapy.Spider):
         # present pn =121
     #    url = "https://tieba.baidu.com/p/5389935515?pn=1"
     #    yield scrapy.Request(url=url,callback=self.parse)
-    start_urls = ["https://tieba.baidu.com/p/5389935515?pn=1",]
+    start_urls = ["https://tieba.baidu.com/p/5389935515?pn=122",]
 
     def parse(self, response):
 
@@ -78,7 +69,6 @@ class PostsSpider(scrapy.Spider):
             level = meta_content['post_no']
             # Parse 'comment_num' in the metadate first
 #TODO:      Post content wrapper
-            #content = temp
             yield{
                 'pid':pid,
                 'level':level,
@@ -94,14 +84,15 @@ class PostsSpider(scrapy.Spider):
             #    'reply_content':post.xpath(''),
             #    }
         
-        #下一页(But there is no end of this...)
-        next_page = response.xpath('//*[@id="thread_theme_5"]/div[1]/ul/li[1]//a[text()="下一页")]/@href').get()
-        #                           //*[@id="thread_theme_5"]/div[1]/ul/li[1]/a[9]/@href
-        this_page = response.xpath('//*[@id="l_pager pager_theme_4 pb_list_pager"]//span/text()').get()
-        total_page = response.xpath('//*[@id="thread_theme_5"]/div[1]/ul/li[2]/span[2]/text()').get()
+        #下一页(已完成)
+        this_page = response.xpath('//*[@id="thread_theme_5"]/div[1]/ul/li[1]/span/text()').extract()
+        tp = int(this_page[0])
+        np = str(tp+1)
+        next_page = "https://tieba.baidu.com/p/5389935515?pn=" + np
+        total_page = response.xpath('//*[@id="thread_theme_5"]/div[1]/ul/li[2]/span[2]/text()').extract()
         if this_page is not total_page:
             yield response.follow(next_page, self.parse)
-
+    
     def parse_details(self, response, item=None):
         if item:
             # populate more `item` fields
