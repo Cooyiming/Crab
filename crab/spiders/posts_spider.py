@@ -14,7 +14,7 @@ class PostsSpider(scrapy.Spider):
         # present pn =121
     #    url = "https://tieba.baidu.com/p/5389935515?pn=1"
     #    yield scrapy.Request(url=url,callback=self.parse)
-    start_urls = ["https://tieba.baidu.com/p/5389935515?pn=122",]
+    start_urls = ["https://tieba.baidu.com/p/5389935515?pn=1",]
 
     def parse(self, response):
 
@@ -93,9 +93,3 @@ class PostsSpider(scrapy.Spider):
         if this_page is not total_page:
             yield response.follow(next_page, self.parse)
     
-    def parse_details(self, response, item=None):
-        if item:
-            # populate more `item` fields
-            return item
-        else:
-            self.logger.warning('No item received for %s', response.url)
