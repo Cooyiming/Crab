@@ -18,6 +18,7 @@ NEWSPIDER_MODULE = 'crab.spiders'
 #USER_AGENT = 'com.apple.Webkit.Networking/8611.3.10.0.1'
 #USER_AGENT = 'Mozilla/5.1 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari'
 
+
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 
