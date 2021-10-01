@@ -8,6 +8,7 @@
 import json
 from itemadapter import ItemAdapter
 import itemadapter
+from scrapy.exporters import JsonLinesItemExporter
 
 
 class CrabPipeline:
