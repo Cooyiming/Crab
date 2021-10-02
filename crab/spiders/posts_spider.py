@@ -60,11 +60,10 @@ class PostsSpider(scrapy.Spider):
             pid = int(post.xpath('@data-pid').get())        # 返回str->返回int
             metadata = post.xpath('@data-field').getall()   # 返回List
                                                             # example:['{"key1":value1}']                                                     
-#FIXIT:   获得内容中的多个标签与img/src
-#           
-            content = post.xpath('//*[@class="d_post_content j_d_post_content "]/descendant::*')
-            #                     //*[@id="j_p_postlist"]/div[10]/div[2]/div[1]
-
+          
+            content_raw = post.xpath('/div[2]/div[1]/cc/div[2]/*|//div[2]/div[1]/cc/div[2]/text()').extract()
+            #                     /html/body/div[3]/div/div[2]/div/div[4]/div[1]/div[3]/div[2]/div[2]/div[1]/cc/div[2]
+            #                     /html/body/div[3]/div/div[2]/div/div[4]/div[1]/div[3]/div[2]
 
 #XXX        # Post info wrapper
             # Metadata normalization
@@ -77,14 +76,15 @@ class PostsSpider(scrapy.Spider):
             comment_num = meta_content['comment_num']
             level = meta_content['post_no']
             # Parse 'comment_num' in the metadate first
-#TODO:      Post content wrapper
-            #content = temp
+#           Post content wrapper
+#     content = content_raw
+
             yield{
                 'pid':pid,
                 'level':level,
                 'comment_num':comment_num,
                 'user_id':user_id,
-                #'content':content,
+                'content':content,
             }
     #TODO:  Reply wrapper TODO:
             #if comment_num != 0 :
@@ -94,10 +94,11 @@ class PostsSpider(scrapy.Spider):
             #    'reply_content':post.xpath(''),
             #    }
         
-        #下一页(But there is no end of this...)
-        next_page = response.xpath('//li[@class="l_pager pager_theme_4 pb_list_pager"]//a[text()="下一页")]/@href').extract()
-        #                           //*[@id="thread_theme_5"]/div[1]/ul/li[1]/a[9]/@href
+        #下一页(已完成)
         this_page = response.xpath('//*[@id="thread_theme_5"]/div[1]/ul/li[1]/span/text()').extract()
+        tp = int(this_page[0])
+        np = str(tp+1)
+        next_page = "https://tieba.baidu.com/p/5389935515?pn=" + np
         total_page = response.xpath('//*[@id="thread_theme_5"]/div[1]/ul/li[2]/span[2]/text()').extract()
         if this_page is not total_page:
             yield response.follow(next_page, self.parse)

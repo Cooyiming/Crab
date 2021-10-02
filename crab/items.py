@@ -18,7 +18,7 @@ class CrabItem(scrapy.Item):
     user_name = scrapy.Field()
     level = scrapy.Field()
     #content
-#    content = scrapy.Field()
+    content = scrapy.Field()
     
     # Reply main info
 #    reply_content = scrapy.Field()
