@@ -1,6 +1,6 @@
 # ignore local cache and output
 items.jl
-.\.scrapy\
+.scrapy\*
 crab\workspace.code-workspace
-crab\__pycache__\
-crab\spiders\__pycache__
+crab\__pycache__\*
+crab\spiders\__pycache__\*
