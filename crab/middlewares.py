@@ -105,6 +105,7 @@ class CrabDownloaderMiddleware:
         spider.logger.info('Spider opened: %s' % spider.name)
 
 
+
 class CrabRUAMidderleware(UserAgentMiddleware):
     #TODO
     def __init__(self, user_agent=''):
@@ -132,3 +133,4 @@ class CrabRUAMidderleware(UserAgentMiddleware):
         "User-Agent, Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Maxthon 2.0)",
         "User-Agent, Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; 360SE)",
             ]
+
