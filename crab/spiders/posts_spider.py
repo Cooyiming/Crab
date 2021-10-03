@@ -28,44 +28,24 @@ class PostsSpider(scrapy.Spider):
     def parse(self, response):
 
         # Dev only
-        #page = response.url.split("/")[-2]
-        #filename = f'quotes-{page}.html'
-        #with open(filename, 'wb') as f:
-        #    f.write(response.body)
-        #self.log(f'Saved file {filename}')
+            #page = response.url.split("/")[-2]
+            #filename = f'quotes-{page}.html'
+            #with open(filename, 'wb') as f:
+            #    f.write(response.body)
+            #self.log(f'Saved file {filename}')
         
         #选贴器
         posts = response.xpath('//*[@id="j_p_postlist"]/div[@class="l_post l_post_bright j_l_post clearfix  "]')
         # Return a list of selectors
-        
-        """
-            posts:
-            //*[@id="j_p_postlist"]/div[1]
-            //*[@id="j_p_postlist"]/div[1]
-            //*[@id="j_p_postlist"]/div[2]
-
-            author:
-
-            content:
-            //*[@id="post_content_141129758205"]
-                image:
-                //*[@id="post_content_141134307009"]/img
-
-            reply:
-            //*[@id="j_p_postlist"]/div[1]/div[2]/div[1]/cc
-        """
-        
+                
         for post in posts:
             #Defult root node here is  
             pid = int(post.xpath('@data-pid').get())        # 返回str->返回int
             metadata = post.xpath('@data-field').getall()   # 返回List
                                                             # example:['{"key1":value1}']                                                     
           
-            content_raw = post.xpath('/div[2]/div[1]/cc/div[2]/*|//div[2]/div[1]/cc/div[2]/text()').extract()
-            #                     /html/body/div[3]/div/div[2]/div/div[4]/div[1]/div[3]/div[2]/div[2]/div[1]/cc/div[2]
-            #                     /html/body/div[3]/div/div[2]/div/div[4]/div[1]/div[3]/div[2]
-
-#XXX        # Post info wrapper
+            content_raw = post.xpath('./div[2]/div[1]/cc/div[2]/*|./div[2]/div[1]/cc/div[2]/text()').extract()
+        # Post info wrapper(已完成)
             # Metadata normalization
             data = json.loads(metadata[0])
             #data is a dictionary
@@ -76,23 +56,25 @@ class PostsSpider(scrapy.Spider):
             comment_num = meta_content['comment_num']
             level = meta_content['post_no']
             # Parse 'comment_num' in the metadate first
-#           Post content wrapper
-#     content = content_raw
+        
+        #FIXIT:           Post content wrapper(未完成)
+            #content = content_raw
 
             yield{
                 'pid':pid,
                 'level':level,
                 'comment_num':comment_num,
                 'user_id':user_id,
-                'content':content,
+                'content':content_raw,
             }
     #TODO:  Reply wrapper TODO:
-            #if comment_num != 0 :
+            if comment_num != 0 :
             #    replies = post.xpath('.//*[@class="j_lzl_c_b_a core_reply_content"]/ul//li[@class="lzl_single_post j_lzl_s_p "]')
             #    yield{
             #    'reply_meta':post.xpath(''),
             #    'reply_content':post.xpath(''),
             #    }
+                pass
         
         #下一页(已完成)
         this_page = response.xpath('//*[@id="thread_theme_5"]/div[1]/ul/li[1]/span/text()').extract()
