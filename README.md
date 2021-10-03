@@ -25,6 +25,6 @@ Crab 是Spixii中国论坛[Homeland](http://spixii.cn)的贴吧内容爬虫，Ho
 在此期间，你可以去这些地方转转
 
 #### 友情链接
-[Homwland](http://spixii.cn/topics)
-[Homeland Android客户端](https://github.com/GatoNaranja/Homeland)
-[斯皮克斯金刚鹦鹉吧](https://tieba.baidu.com/f?frs=yqtb&kw=%E6%96%AF%E7%9A%AE%E5%85%8B%E6%96%AF%E9%87%91%E5%88%9A%E9%B9%A6%E9%B9%89&traceid=)
+- [Homwland](http://spixii.cn/topics)
+- [Homeland Android客户端](https://github.com/GatoNaranja/Homeland)
+- [斯皮克斯金刚鹦鹉吧](https://tieba.baidu.com/f?frs=yqtb&kw=%E6%96%AF%E7%9A%AE%E5%85%8B%E6%96%AF%E9%87%91%E5%88%9A%E9%B9%A6%E9%B9%89&traceid=)
