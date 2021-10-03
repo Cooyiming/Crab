@@ -15,3 +15,12 @@ Crab 是Spixii中国论坛[Homeland](http://spixii.cn)的贴吧内容爬虫，Ho
 - 添加数据库读写访问
 - 增加贴吧评论爬取功能
 - ~~还没想好~~
+---------------------------------
+
+### How to use
+
+0. 安装最新版python
+1. 克隆库的master分支
+2. 安装requirements.txt中所需的依赖
+3. 运行booter.py
+4. *等*
