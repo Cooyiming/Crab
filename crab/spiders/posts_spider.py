@@ -3,15 +3,6 @@ import scrapy
 #from scrapy import signals
 
 import json,re
-
-
-
-
-
-
-
-
-
 # define our spider
 class PostsSpider(scrapy.Spider):
     # 爬虫的唯一标识符
@@ -56,9 +47,9 @@ class PostsSpider(scrapy.Spider):
             comment_num = meta_content['comment_num']
             level = meta_content['post_no']
             # Parse 'comment_num' in the metadate first
-        
-        #FIXIT:           Post content wrapper(未完成)
-            #content = content_raw
+
+#TODO:      Post content wrapper
+
 
             yield{
                 'pid':pid,
@@ -76,6 +67,8 @@ class PostsSpider(scrapy.Spider):
             #    }
                 pass
         
+
+
         #下一页(已完成)
         this_page = response.xpath('//*[@id="thread_theme_5"]/div[1]/ul/li[1]/span/text()').extract()
         tp = int(this_page[0])
@@ -84,10 +77,4 @@ class PostsSpider(scrapy.Spider):
         total_page = response.xpath('//*[@id="thread_theme_5"]/div[1]/ul/li[2]/span[2]/text()').extract()
         if this_page is not total_page:
             yield response.follow(next_page, self.parse)
-
-    def parse_details(self, response, item=None):
-        if item:
-            # populate more `item` fields
-            return item
-        else:
-            self.logger.warning('No item received for %s', response.url)
+    
